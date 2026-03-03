@@ -45,8 +45,9 @@ public:
         size_t idx = m_end.load(mo::acquire);
         size_t begin = m_begin.load(mo::acquire);
 
-        int& data = m_data[idx % m_data.size()];
-        std::atomic<size_t>& sequence = m_seq[idx % m_data.size()];
+        const size_t vec_index = get_vector_index(idx);
+        int& data = m_data[vec_index];
+        std::atomic<size_t>& sequence = m_seq[vec_index];
 
         if (is_full(idx, begin))
             return false;
@@ -63,8 +64,9 @@ public:
     bool try_pop(int& r) {
         size_t idx = m_begin.load(mo::acquire);
 
-        int& data = m_data[idx % m_data.size()];
-        std::atomic<size_t>& sequence = m_seq[idx % m_data.size()];
+        const size_t vec_index = get_vector_index(idx);
+        int& data = m_data[vec_index];
+        std::atomic<size_t>& sequence = m_seq[vec_index];
 
         if (is_empty(idx))
             return false;

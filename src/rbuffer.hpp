@@ -39,7 +39,7 @@ protected:
 public:
     RingBuffer(size_t sz) : m_data(sz, 0), m_seq(sz), m_begin(0ull), m_end(0ull) {
         for (size_t i = 0; i < sz; i++)
-            m_seq[i].value.store(i, std::memory_order::release);
+            m_seq[i].value.store(i, mo::release);
     }
     bool try_push(int v) {
         size_t idx = m_end.load(mo::acquire);

@@ -4,7 +4,6 @@
 #include <new>
 #include <vector>
 
-
 class RingBuffer {
 protected:
     using mo = std::memory_order;

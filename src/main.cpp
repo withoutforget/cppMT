@@ -8,7 +8,7 @@
 #include "rbuffer.hpp"
 
 void test_ring_buffer(int iterations, int num_threads) {
-    RingBuffer rb(num_threads * 64);
+    RingBuffer<int> rb(num_threads * 64);
     std::atomic<int> produced{0}, consumed{0};
     std::vector<std::thread> producers, consumers;
 
@@ -38,9 +38,7 @@ void test_ring_buffer(int iterations, int num_threads) {
         t.join();
 
     if (consumed.load() != iterations * num_threads) {
-        std::cerr << std::format(
-            "FAILED: {} != {}\n", consumed.load(), iterations * num_threads
-        );
+        std::cerr << std::format("FAILED: {} != {}\n", consumed.load(), iterations * num_threads);
         std::exit(1);
     }
     std::cout << consumed.load() << "\n";
@@ -51,10 +49,10 @@ int main() try {
     std::cin >> iters >> threads;
     test_ring_buffer(iters, threads);
     return 0;
-} catch(std::exception& e) {
+} catch (std::exception& e) {
     std::cerr << std::format("unexpected exception: {}\n", e.what());
     std::exit(1);
-} catch(...) {
+} catch (...) {
     std::cerr << std::format("unknown exception\n");
     std::exit(1);
 }

@@ -1,5 +1,5 @@
 CXX=g++
-CXXFLAGS=-std=c++23 -Wall -Wextra -Wpedantic
+CXXFLAGS=-std=c++23 -Wall -Wextra -Wpedantic -Wno-interference-size
 LDFLAGS=
 # release, asan, msan, tsan
 BUILD_TYPE?=release

@@ -1,4 +1,5 @@
 #include <atomic>
+#include <exception>
 #include <format>
 #include <iostream>
 #include <thread>
@@ -37,16 +38,23 @@ void test_ring_buffer(int iterations, int num_threads) {
         t.join();
 
     if (consumed.load() != iterations * num_threads) {
-        std::cout << std::format(
+        std::cerr << std::format(
             "FAILED: {} != {}\n", consumed.load(), iterations * num_threads
         );
-        std::exit(1337);
+        std::exit(1);
     }
-    std::cout << "OK: " << consumed.load() << " items\n";
+    std::cout << consumed.load() << "\n";
 }
 
-int main() {
-    while (true)
-        test_ring_buffer(1000, 10);
+int main() try {
+    size_t iters, threads;
+    std::cin >> iters >> threads;
+    test_ring_buffer(iters, threads);
     return 0;
+} catch(std::exception& e) {
+    std::cerr << std::format("unexpected exception: {}\n", e.what());
+    std::exit(1);
+} catch(...) {
+    std::cerr << std::format("unknown exception\n");
+    std::exit(1);
 }

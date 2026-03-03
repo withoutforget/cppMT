@@ -8,7 +8,7 @@
 #include "rbuffer.hpp"
 
 void test_ring_buffer(int iterations, int num_threads) {
-    RingBuffer<int> rb(num_threads * 64);
+    RingBuffer rb(num_threads * 64);
     std::atomic<int> produced{0}, consumed{0};
     std::vector<std::thread> producers, consumers;
 

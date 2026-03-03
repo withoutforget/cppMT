@@ -28,7 +28,7 @@ protected:
             continue;
     }
 
-    bool try_claim_slot(std::atomic<size_t>& slot, size_t& expected) noexcept {
+    bool try_claim_slot(std::atomic<size_t>& slot, size_t& expected) const noexcept {
         return slot.compare_exchange_strong(expected, expected + 1, mo::acq_rel, mo::relaxed);
     }
 

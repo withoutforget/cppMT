@@ -2,6 +2,7 @@
 
 #include <atomic>
 #include <new>
+#include <thread>
 #include <vector>
 
 class RingBuffer {
@@ -24,7 +25,7 @@ protected:
 
     void wait_for_sequence_update(std::atomic<size_t>& seq, size_t at_least_value) {
         while (seq.load(mo::acquire) < at_least_value)
-            continue;
+            std::this_thread::yield();
     }
 
     bool try_claim_slot(std::atomic<size_t>& slot, size_t& expected) const noexcept {

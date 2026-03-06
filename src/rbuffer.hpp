@@ -49,7 +49,7 @@ public:
         int& data = m_data[vec_index];
         std::atomic<size_t>& sequence = m_seq[vec_index];
 
-        if (is_full(idx, begin))
+        if (is_full(begin, idx))
             return false;
         if (!try_claim_slot(m_end, idx))
             return false;
